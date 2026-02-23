@@ -1,27 +1,37 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class PalindromeCheckerApp {
 
-    // Method to check palindrome
-    public static boolean isPalindrome(String input) {
-        String cleaned = input.replaceAll("\\s+", "").toLowerCase();
-        String reversed = new StringBuilder(cleaned).reverse().toString();
-        return cleaned.equals(reversed);
-    }
-
     public static void main(String[] args) {
 
+        System.out.println("Welcome to Palindrome Checker App");
+
         Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a word: ");
+        String word = scanner.nextLine();
 
-        System.out.println("===== Welcome to Palindrome Checker App =====");
+        Stack<Character> stack = new Stack<>();
+        Queue<Character> queue = new LinkedList<>();
 
-        System.out.print("Enter a word or number: ");
-        String input = scanner.nextLine();
+        for (char c : word.toCharArray()) {
+            char lower = Character.toLowerCase(c);
+            stack.push(lower);
+            queue.add(lower);
+        }
 
-        if (isPalindrome(input)) {
-            System.out.println(input + " is a Palindrome ✅");
+        boolean isPalindrome = true;
+
+        while (!stack.isEmpty()) {
+            if (!stack.pop().equals(queue.remove())) {
+                isPalindrome = false;
+                break;
+            }
+        }
+
+        if (isPalindrome) {
+            System.out.println("Palindrome");
         } else {
-            System.out.println(input + " is NOT a Palindrome ❌");
+            System.out.println("Not Palindrome");
         }
 
         scanner.close();
