@@ -10,9 +10,22 @@ public class PalindromeCheckerApp {
         System.out.print("Enter a word: ");
         String word = scanner.nextLine();
 
-        String reversed = new StringBuilder(word).reverse().toString();
+        char[] chars = word.toCharArray();
+        boolean isPalindrome = true;
 
-        if (word.equalsIgnoreCase(reversed)) {
+        int left = 0;
+        int right = chars.length - 1;
+
+        while (left < right) {
+            if (Character.toLowerCase(chars[left]) != Character.toLowerCase(chars[right])) {
+                isPalindrome = false;
+                break;
+            }
+            left++;
+            right--;
+        }
+
+        if (isPalindrome) {
             System.out.println("Palindrome");
         } else {
             System.out.println("Not Palindrome");
