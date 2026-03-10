@@ -1,57 +1,88 @@
-public class PalindromePerformanceComparison {
+class Node {
+    char data;
+    Node next;
 
-    // Method 1: Iterative approach
-    public static boolean iterativePalindrome(String str) {
-        int start = 0;
-        int end = str.length() - 1;
+    Node(char data) {
+        this.data = data;
+        this.next = null;
+    }
+}
 
-        while (start < end) {
-            if (str.charAt(start) != str.charAt(end)) {
-                return false;
+public class LinkedListPalindromeChecker {
+
+    // Convert string to linked list
+    public static Node createLinkedList(String str) {
+        Node head = null, tail = null;
+
+        for (int i = 0; i < str.length(); i++) {
+            Node newNode = new Node(str.charAt(i));
+
+            if (head == null) {
+                head = newNode;
+                tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
             }
-            start++;
-            end--;
         }
-        return true;
+        return head;
     }
 
-    // Method 2: Recursive approach
-    public static boolean recursivePalindrome(String str, int start, int end) {
-        if (start >= end)
+    // Reverse linked list
+    public static Node reverse(Node head) {
+        Node prev = null;
+        Node current = head;
+
+        while (current != null) {
+            Node next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+
+        return prev;
+    }
+
+    // Check palindrome
+    public static boolean isPalindrome(Node head) {
+
+        if (head == null || head.next == null)
             return true;
 
-        if (str.charAt(start) != str.charAt(end))
-            return false;
+        Node slow = head;
+        Node fast = head;
 
-        return recursivePalindrome(str, start + 1, end - 1);
-    }
+        // Find middle using fast and slow pointer
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
 
-    // Method 3: Reverse String approach
-    public static boolean reversePalindrome(String str) {
-        String reversed = new StringBuilder(str).reverse().toString();
-        return str.equals(reversed);
+        // Reverse second half
+        Node secondHalf = reverse(slow);
+        Node firstHalf = head;
+
+        // Compare halves
+        while (secondHalf != null) {
+            if (firstHalf.data != secondHalf.data)
+                return false;
+
+            firstHalf = firstHalf.next;
+            secondHalf = secondHalf.next;
+        }
+
+        return true;
     }
 
     public static void main(String[] args) {
 
-        String input = "madamimadam";
+        String input = "madam";
 
-        // Iterative timing
-        long startTime = System.nanoTime();
-        iterativePalindrome(input);
-        long endTime = System.nanoTime();
-        System.out.println("Iterative Method Time: " + (endTime - startTime) + " ns");
+        Node head = createLinkedList(input);
 
-        // Recursive timing
-        startTime = System.nanoTime();
-        recursivePalindrome(input, 0, input.length() - 1);
-        endTime = System.nanoTime();
-        System.out.println("Recursive Method Time: " + (endTime - startTime) + " ns");
-
-        // Reverse string timing
-        startTime = System.nanoTime();
-        reversePalindrome(input);
-        endTime = System.nanoTime();
-        System.out.println("Reverse String Method Time: " + (endTime - startTime) + " ns");
+        if (isPalindrome(head))
+            System.out.println("Palindrome");
+        else
+            System.out.println("Not a Palindrome");
     }
 }
