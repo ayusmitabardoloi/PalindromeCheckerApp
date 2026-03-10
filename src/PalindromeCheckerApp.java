@@ -1,25 +1,32 @@
-public class RecursivePalindrome {
+public class NormalizedPalindrome {
 
-    // Recursive function to check palindrome
-    public static boolean isPalindrome(String str, int start, int end) {
+    // Function to check palindrome
+    public static boolean isPalindrome(String input) {
 
-        // Base condition
-        if (start >= end)
-            return true;
+        // Normalize string: remove spaces and convert to lowercase
+        String normalized = input.replaceAll("\\s+", "").toLowerCase();
 
-        // If characters are not equal
-        if (str.charAt(start) != str.charAt(end))
-            return false;
+        int start = 0;
+        int end = normalized.length() - 1;
 
-        // Recursive call
-        return isPalindrome(str, start + 1, end - 1);
+        while (start < end) {
+
+            if (normalized.charAt(start) != normalized.charAt(end)) {
+                return false;
+            }
+
+            start++;
+            end--;
+        }
+
+        return true;
     }
 
     public static void main(String[] args) {
 
-        String input = "madam";
+        String input = "Madam In Eden Im Adam";
 
-        if (isPalindrome(input, 0, input.length() - 1))
+        if (isPalindrome(input))
             System.out.println("Palindrome");
         else
             System.out.println("Not a Palindrome");
