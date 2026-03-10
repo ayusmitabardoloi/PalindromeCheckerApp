@@ -1,9 +1,9 @@
-public class NormalizedPalindrome {
+class PalindromeChecker {
 
-    // Function to check palindrome
-    public static boolean isPalindrome(String input) {
+    // Method to check palindrome
+    public boolean checkPalindrome(String input) {
 
-        // Normalize string: remove spaces and convert to lowercase
+        // Normalize string
         String normalized = input.replaceAll("\\s+", "").toLowerCase();
 
         int start = 0;
@@ -21,12 +21,17 @@ public class NormalizedPalindrome {
 
         return true;
     }
+}
+
+public class Main {
 
     public static void main(String[] args) {
 
-        String input = "Madam In Eden Im Adam";
+        PalindromeChecker checker = new PalindromeChecker();
 
-        if (isPalindrome(input))
+        String input = "Madam";
+
+        if (checker.checkPalindrome(input))
             System.out.println("Palindrome");
         else
             System.out.println("Not a Palindrome");
